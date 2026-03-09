@@ -1,6 +1,6 @@
 
 import Map from "./Map/Map"
-import DrawerUI from "./components/DrawerUI"
+import DrawerUI from "./components/DrawerBase"
 import { Provider } from "./components/ui/provider"
 
 function App() {
