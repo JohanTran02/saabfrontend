@@ -9,10 +9,15 @@ const stationsProperties: Record<StationType, StationTypeColors> = {
     reservbas: 'red',
 }
 
-export default function MapMarker({ stationType, coordinates }: Station) {
+export default function MapMarker({ stationType, coordinates, id }: Station) {
     return (
         <CircleMarker center={coordinates} fillColor={stationsProperties[stationType]} color={stationsProperties[stationType]} >
-            <Popup>{stationType}</Popup>
+            <Popup>
+                Station Type:{stationType}<br />
+                lat:{coordinates[0]}<br />
+                long:{coordinates[1]}<br />
+                Id:{id}<br />
+            </Popup>
         </CircleMarker>
     )
 }
