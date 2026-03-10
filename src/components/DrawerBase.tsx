@@ -13,6 +13,17 @@ import { useState } from "react";
 export default function DrawerUI() {
   const [open, setOpen] = useState(false);
 
+  const flights = [
+    { id: 1, name: "Flight 1" },
+    { id: 2, name: "Flight 2" },
+    { id: 3, name: "Flight 3" },
+  ];
+
+  const resources = [
+    { id: 1, name: "Resource 1" },
+    { id: 2, name: "Resource 2" },
+    { id: 3, name: "Resource 3" },
+  ];
   return (
     <Drawer.Root
       open={open}
@@ -41,8 +52,8 @@ export default function DrawerUI() {
 
                   <Field.Label>Flightbase Coordinates</Field.Label>
                   <Flex gap={2}>
-                    <Input flex={1} placeholder="Latitude" />
-                    <Input flex={1} placeholder="Longitude" />
+                  <Input flex={1} placeholder="Latitude" />
+                  <Input flex={1} placeholder="Longitude" />
                   </Flex>
 
                   <Field.Label> Assign Flight to Flightbase</Field.Label>
@@ -51,9 +62,14 @@ export default function DrawerUI() {
                       <Button variant="outline">Select Flight</Button>
                     </Menu.Trigger>
                     <Menu.Content>
-                      <Menu.Item value="flight 1">Flight 1</Menu.Item>
-                      <Menu.Item value="flight 2">Flight 2</Menu.Item>
-                      <Menu.Item value="flight 3">Flight 3</Menu.Item>
+                      {flights.map((flight) => (
+                        <Menu.Item
+                          key={flight.id}
+                          value={`flight-${flight.id}`}
+                        >
+                          {flight.name}
+                        </Menu.Item>
+                      ))}
                     </Menu.Content>
                   </Menu.Root>
 
@@ -63,9 +79,14 @@ export default function DrawerUI() {
                       <Button variant="outline">Select Resource</Button>
                     </Menu.Trigger>
                     <Menu.Content>
-                      <Menu.Item value="resource 1">Resource 1</Menu.Item>
-                      <Menu.Item value="resource 2">Resource 2</Menu.Item>
-                      <Menu.Item value="resource 3">Resource 3</Menu.Item>
+                      {resources.map((resource) => (
+                        <Menu.Item
+                          key={resource.id}
+                          value={`resource-${resource.id}`}
+                        >
+                          {resource.name}
+                        </Menu.Item>
+                      ))}
                     </Menu.Content>
                   </Menu.Root>
 
