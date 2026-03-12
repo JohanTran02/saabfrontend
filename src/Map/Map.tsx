@@ -1,5 +1,5 @@
 import { MapContainer, TileLayer, ZoomControl } from "react-leaflet";
-import StationsLayer from "./StationsLayer";
+import BasesLayer from "./BasesLayer";
 
 export default function Map() {
     return (
@@ -10,7 +10,7 @@ export default function Map() {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <ZoomControl position="topright" />
-            <StationsLayer />
+            <BasesLayer />
         </MapContainer>
     )
 }
