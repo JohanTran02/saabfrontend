@@ -1,10 +1,13 @@
+
+
 export type Base = {
     id: string,
+    name: string,
     baseType: BaseType,
     coordinates: [lat: number, long: number],
-    assignedResources: Resources,
-    assignedFlights: Flights['id'][];
-    currentResources: Resources
+    assignedResources: ResourceItem[],
+    assignedFlights: Flights[];
+    currentResources: ResourceItem[];
 }
 
 type BaseResourceType = {
@@ -12,6 +15,10 @@ type BaseResourceType = {
     type: ResourceType,
     unit: string | null,
 }
+export type ResourceItem = Resources[ResourceType] & {
+  id: string;
+  name: string;
+};
 
  export type ResourceType = 'fuel' | 'ammunition' | 'weapons' | 'spare_parts';
 

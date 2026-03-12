@@ -10,6 +10,7 @@ type BaseState = {
     currentResources: Resources
 }
 
+
 type BaseAction = {
     addBase: (base: Base) => void,
     removeBase: (baseId: string) => void
