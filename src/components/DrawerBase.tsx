@@ -18,21 +18,19 @@ import {
 } from "@/components/ui/menu";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useState } from "react";
+import type { BaseType, Flights } from "@/Map/types";
+import {
+  dummyFlights,
+  dummyResources,
+  type ResourceItem,
+} from "@/Map/constants";
 
-
-interface Flight {
-  id: number;
-  name: string;
-}
-interface Resource {
-  id: number;
-  name: string;
-}
 interface IFormInput {
   name: string;
-  coordString: string;
-  flights: Flight[];
-  resources: Resource[];
+  baseType: BaseType;
+  coordinates: string;
+  flights: Flights[];
+  resources: ResourceItem[];
 }
 
 export default function DrawerUI() {
@@ -85,9 +83,14 @@ export default function DrawerUI() {
               </Field.Root>
 
               <Field.Root>
+                <Field.Label>Base Type</Field.Label>
+                <Input {...register("baseType")} placeholder="Base Type" />
+              </Field.Root>
+
+              <Field.Root>
                 <Field.Label>Coordinates</Field.Label>
                 <Input
-                  {...register("coordString")}
+                  {...register("coordinates")}
                   placeholder="enter coordinates as lat,long"
                 />
               </Field.Root>
@@ -107,20 +110,34 @@ export default function DrawerUI() {
                     </Button>
                   </MenuTrigger>
                   <MenuContent>
-                    {[{ id: 1, name: "Flight 1" }].map((f) => (
+                    {dummyFlights.map((f) => (
                       <MenuItem
                         key={f.id}
-                        value={f.name}
+                        value={f.model}
                         onClick={() =>
                           setValue("flights", [...selectedFlights, f])
                         }
                       >
-                        {f.name}
+                        {f.model}
                       </MenuItem>
                     ))}
                   </MenuContent>
+                </MenuRoot>
+                <MenuRoot>
+                  <Field.Label>Resources</Field.Label>
+                  <MenuTrigger asChild>
+                    <Button
+                      variant="outline"
+                      width="full"
+                      justifyContent="start"
+                    >
+                      {selectedResources.length > 0
+                        ? `${selectedResources.length} Selected`
+                        : "Select Resources"}
+                    </Button>
+                  </MenuTrigger>
                   <MenuContent>
-                    {[{ id: 1, name: "Resource 1" }].map((r) => (
+                    {dummyResources.map((r) => (
                       <MenuItem
                         key={r.id}
                         value={r.name}
