@@ -1,6 +1,6 @@
 export type Base = {
     id: string,
-    stationType: StationType,
+    baseType: BaseType,
     coordinates: [lat: number, long: number],
     assignedResources: Resources,
     assignedFlights: Flights['id'][];
@@ -25,4 +25,4 @@ export type Flights = {
     status: 'idle' | 'flying' | 'repairing'
 }
 
-export type StationType = 'huvudbas' | 'sidobas' | 'reservbas';
+export type BaseType = 'huvudbas' | 'sidobas' | 'reservbas';
