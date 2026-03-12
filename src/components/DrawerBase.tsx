@@ -19,7 +19,7 @@ import {
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 
-// Types remain the same
+
 interface Flight {
   id: number;
   name: string;
