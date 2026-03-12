@@ -1,110 +1,151 @@
+import { Button, Field, Input, Stack } from "@chakra-ui/react";
 import {
-  Box,
-  Button,
-  CloseButton,
-  Drawer,
-  Flex,
-  Portal,
-  Field,
-  Input,
-  Menu,
-} from "@chakra-ui/react";
+  DrawerBackdrop,
+  DrawerBody,
+  DrawerCloseTrigger,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerRoot,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import {
+  MenuContent,
+  MenuItem,
+  MenuRoot,
+  MenuTrigger,
+} from "@/components/ui/menu";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { useState } from "react";
+
+// Types remain the same
+interface Flight {
+  id: number;
+  name: string;
+}
+interface Resource {
+  id: number;
+  name: string;
+}
+interface IFormInput {
+  name: string;
+  coordString: string;
+  flights: Flight[];
+  resources: Resource[];
+}
+
 export default function DrawerUI() {
   const [open, setOpen] = useState(false);
+  const { register, handleSubmit, setValue, watch } = useForm<IFormInput>({
+    defaultValues: { flights: [], resources: [] },
+  });
 
-  const flights = [
-    { id: 1, name: "Flight 1" },
-    { id: 2, name: "Flight 2" },
-    { id: 3, name: "Flight 3" },
-  ];
+  const selectedFlights = watch("flights");
+  const selectedResources = watch("resources");
 
-  const resources = [
-    { id: 1, name: "Resource 1" },
-    { id: 2, name: "Resource 2" },
-    { id: 3, name: "Resource 3" },
-  ];
+  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+    console.log("Station Instance Data:", data);
+    setOpen(false);
+  };
+
   return (
-    <Drawer.Root
+    <DrawerRoot
       open={open}
       onOpenChange={(e) => setOpen(e.open)}
-      placement={"start"}
+      placement="start"
     >
-      <Box position="fixed" bottom="1.5rem" right="1.5rem" zIndex="overlay">
-        <Drawer.Trigger asChild>
-          <Button variant="outline" size="sm" background={"black"}>
-            Set up new Flightbase
-          </Button>
-        </Drawer.Trigger>
-      </Box>
-      <Portal>
-        <Drawer.Backdrop />
-        <Drawer.Positioner>
-          <Drawer.Content>
-            <Drawer.Header>
-              <Drawer.Title>Set up new Flightbase</Drawer.Title>
-            </Drawer.Header>
-            <Drawer.Body>
-              <Flex direction="column" gap={4}>
-                <Field.Root required>
-                  <Field.Label>Flightbase Name</Field.Label>
-                  <Input placeholder="Enter flightbase name" />
+      <DrawerTrigger asChild>
+        <Button
+          variant="outline"
+          size="sm"
+          bg="black"
+          color="white"
+          position="fixed"
+          bottom="6"
+          right="6"
+          zIndex="overlay"
+        >
+          Set up new Flightbase
+        </Button>
+      </DrawerTrigger>
 
-                  <Field.Label>Flightbase Coordinates</Field.Label>
-                  <Flex gap={2}>
-                  <Input flex={1} placeholder="Latitude" />
-                  <Input flex={1} placeholder="Longitude" />
-                  </Flex>
+      <DrawerBackdrop />
+      <DrawerContent>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <DrawerHeader>
+            <DrawerTitle>Set up new Flightbase</DrawerTitle>
+          </DrawerHeader>
 
-                  <Field.Label> Assign Flight to Flightbase</Field.Label>
-                  <Menu.Root>
-                    <Menu.Trigger asChild>
-                      <Button variant="outline">Select Flight</Button>
-                    </Menu.Trigger>
-                    <Menu.Content>
-                      {flights.map((flight) => (
-                        <Menu.Item
-                          key={flight.id}
-                          value={`flight-${flight.id}`}
-                        >
-                          {flight.name}
-                        </Menu.Item>
-                      ))}
-                    </Menu.Content>
-                  </Menu.Root>
+          <DrawerBody>
+            <Stack gap="4">
+              <Field.Root>
+                <Field.Label>Name</Field.Label>
+                <Input {...register("name")} placeholder="New Flightbase" />
+              </Field.Root>
 
-                  <Field.Label> Assign Resources to Flightbase</Field.Label>
-                  <Menu.Root>
-                    <Menu.Trigger asChild>
-                      <Button variant="outline">Select Resource</Button>
-                    </Menu.Trigger>
-                    <Menu.Content>
-                      {resources.map((resource) => (
-                        <Menu.Item
-                          key={resource.id}
-                          value={`resource-${resource.id}`}
-                        >
-                          {resource.name}
-                        </Menu.Item>
-                      ))}
-                    </Menu.Content>
-                  </Menu.Root>
+              <Field.Root>
+                <Field.Label>Coordinates</Field.Label>
+                <Input
+                  {...register("coordString")}
+                  placeholder="enter coordinates as lat,long"
+                />
+              </Field.Root>
 
-                  <Field.Label>Time Estimate</Field.Label>
-                  <Input placeholder="Set Estimated Time of Arrival" />
-                </Field.Root>
-              </Flex>
-            </Drawer.Body>
-            <Drawer.Footer>
-              <Button variant="outline">Cancel</Button>
-              <Button>Save</Button>
-            </Drawer.Footer>
-            <Drawer.CloseTrigger asChild>
-              <CloseButton size="sm" />
-            </Drawer.CloseTrigger>
-          </Drawer.Content>
-        </Drawer.Positioner>
-      </Portal>
-    </Drawer.Root>
+              <Field.Root>
+                <Field.Label>Flights</Field.Label>
+                <MenuRoot>
+                  <MenuTrigger asChild>
+                    <Button
+                      variant="outline"
+                      width="full"
+                      justifyContent="start"
+                    >
+                      {selectedFlights.length > 0
+                        ? `${selectedFlights.length} Selected`
+                        : "Select Flights"}
+                    </Button>
+                  </MenuTrigger>
+                  <MenuContent>
+                    {[{ id: 1, name: "Flight 1" }].map((f) => (
+                      <MenuItem
+                        key={f.id}
+                        value={f.name}
+                        onClick={() =>
+                          setValue("flights", [...selectedFlights, f])
+                        }
+                      >
+                        {f.name}
+                      </MenuItem>
+                    ))}
+                  </MenuContent>
+                  <MenuContent>
+                    {[{ id: 1, name: "Resource 1" }].map((r) => (
+                      <MenuItem
+                        key={r.id}
+                        value={r.name}
+                        onClick={() =>
+                          setValue("resources", [...selectedResources, r])
+                        }
+                      >
+                        {r.name}
+                      </MenuItem>
+                    ))}
+                  </MenuContent>
+                </MenuRoot>
+              </Field.Root>
+            </Stack>
+          </DrawerBody>
+
+          <DrawerFooter>
+            <Button variant="outline" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+            <Button type="submit">Save Station</Button>
+          </DrawerFooter>
+        </form>
+        <DrawerCloseTrigger />
+      </DrawerContent>
+    </DrawerRoot>
   );
 }
