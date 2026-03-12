@@ -1,7 +1,28 @@
-export type Station = {
+export type Base = {
+    id: string,
     stationType: StationType,
     coordinates: [lat: number, long: number],
-    id: string
+    assignedResources: Resources,
+    assignedFlights: Flights['id'][];
+    currentResources: Resources
+}
+
+type BaseResourceType = {
+    amount: number,
+    type: string,
+    unit: string | null,
+}
+
+type ResourceType = 'fuel' | 'ammunition' | 'weapons' | 'spare_parts';
+
+export type Resources = {
+    [Key in ResourceType]: BaseResourceType;
+}
+
+export type Flights = {
+    id: string,
+    model: string,
+    status: 'idle' | 'flying' | 'repairing'
 }
 
 export type StationType = 'huvudbas' | 'sidobas' | 'reservbas';

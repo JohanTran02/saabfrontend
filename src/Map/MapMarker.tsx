@@ -1,5 +1,5 @@
 import { CircleMarker, Popup } from 'react-leaflet';
-import type { Station, StationType } from './types';
+import type { Base, StationType } from './types';
 
 type StationTypeColors = 'green' | 'yellow' | 'red';
 
@@ -9,7 +9,7 @@ const stationsProperties: Record<StationType, StationTypeColors> = {
     reservbas: 'red',
 }
 
-export default function MapMarker({ stationType, coordinates, id }: Station) {
+export default function MapMarker({ stationType, coordinates, id }: Base) {
     return (
         <CircleMarker center={coordinates} fillColor={stationsProperties[stationType]} color={stationsProperties[stationType]} >
             <Popup>
