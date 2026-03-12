@@ -9,11 +9,11 @@ export type Base = {
 
 type BaseResourceType = {
     amount: number,
-    type: string,
+    type: ResourceType,
     unit: string | null,
 }
 
-type ResourceType = 'fuel' | 'ammunition' | 'weapons' | 'spare_parts';
+ export type ResourceType = 'fuel' | 'ammunition' | 'weapons' | 'spare_parts';
 
 export type Resources = {
     [Key in ResourceType]: BaseResourceType;
