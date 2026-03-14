@@ -1,5 +1,3 @@
-
-
 export type Base = {
     id: string,
     name: string,
@@ -16,11 +14,11 @@ type BaseResourceType = {
     unit: string | null,
 }
 export type ResourceItem = Resources[ResourceType] & {
-  id: string;
-  name: string;
+    id: string;
+    name: string;
 };
 
- export type ResourceType = 'fuel' | 'ammunition' | 'weapons' | 'spare_parts';
+export type ResourceType = 'fuel' | 'ammunition' | 'weapons' | 'spare_parts';
 
 export type Resources = {
     [Key in ResourceType]: BaseResourceType;

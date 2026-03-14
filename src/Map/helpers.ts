@@ -21,3 +21,28 @@ export const decreaseResources = (current: Resources, removed: Resources): Resou
         return acc;
     }, {} as Resources);
 };
+
+export const checkPermanence = (id: number) => {
+    if (id === 1) {
+        return 'Permanent'
+    }
+    else if (id === 2) {
+        return 'FOB'
+    }
+    else if (id === 3) {
+        return 'Rotating'
+    }
+    return 'Unknown';
+}
+export const checkStatus = (id: number) => {
+    if (id === 1) {
+        return 'Active'
+    }
+    else if (id === 2) {
+        return 'Maintenance'
+    }
+    else if (id === 3) {
+        return 'Retired'
+    }
+    return 'Unknown';
+}

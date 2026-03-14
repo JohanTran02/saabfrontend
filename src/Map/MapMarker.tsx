@@ -15,10 +15,12 @@ type Base = {
 
 
 export default function MapMarker({ base }: { base: Base }) {
-    const { setCurrentBase } = useBaseStore();
+    const { currentBase, setCurrentBase, setBaseModalContent } = useBaseStore();
     const eventHandler: LeafletEventHandlerFnMap = {
         click() {
             setCurrentBase(base);
+            setBaseModalContent(true);
+            console.log(currentBase)
         }
     }
 
