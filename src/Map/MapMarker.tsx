@@ -1,23 +1,18 @@
-import { CircleMarker, Popup } from 'react-leaflet';
-import type { Base, BaseType } from './types';
+import { CircleMarker } from 'react-leaflet';
 
-type BaseTypeColors = 'green' | 'yellow' | 'red';
-
-const BasesProperties: Record<BaseType, BaseTypeColors> = {
-    huvudbas: 'green',
-    sidobas: 'yellow',
-    reservbas: 'red',
+type Base = {
+    id: string,
+    name: string,
+    position: {
+        latitude: number,
+        longitude: number
+    },
+    status: number,
+    permanenceId: string,
 }
 
-export default function MapMarker({ baseType: BaseType, coordinates, id }: Base) {
+export default function MapMarker({ position, id }: Base) {
     return (
-        <CircleMarker center={coordinates} fillColor={BasesProperties[BaseType]} color={BasesProperties[BaseType]} >
-            <Popup>
-                Base Type:{BaseType}<br />
-                lat:{coordinates[0]}<br />
-                long:{coordinates[1]}<br />
-                Id:{id}<br />
-            </Popup>
-        </CircleMarker>
+        <CircleMarker key={id} center={[position.latitude, position.longitude]} ></CircleMarker>
     )
 }
