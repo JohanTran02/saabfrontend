@@ -11,18 +11,20 @@ type Base = {
         longitude: number
     },
     status: number,
-    permanenceId: string,
+    permanenceId: number,
 }
 
 type BaseState = {
-    currentBase: Base,
+    currentBase: Base | null,
     bases: Base[];
     assignedFlights: Flights['id'][],
     assignedResources: Resources,
     currentResources: Resources
+    baseModalContent: boolean;
 }
 
 type BaseAction = {
+    setBaseModalContent: (open: boolean) => void,
     addBase: (base: Base) => void,
     addBases: (base: Base[]) => void,
     setCurrentBase: (base: Base) => void,
@@ -37,12 +39,14 @@ type BaseAction = {
 }
 
 export const useBaseStore = create<BaseState & BaseAction>((set) => ({
-    currentBase: {} as Base,
+    currentBase: null,
     bases: [],
     assignedFlights: [],
     assignedResources: {} as Resources,
     currentResources: {} as Resources,
+    baseModalContent: false,
     setCurrentBase: (base) => set(() => ({ currentBase: base })),
+    setBaseModalContent: (open) => set(() => ({ baseModalContent: open })),
     addBase: (base) => set((state) => ({ bases: [...state.bases, base] })),
     addBases: (bases) => set((state) => ({ bases: [...state.bases, ...bases] })),
     removeBase: (baseId) => set((state) => ({ bases: state.bases.filter((base) => baseId !== base.guid) })),
