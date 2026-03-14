@@ -38,8 +38,6 @@ export interface Base {
     id: string;
     name: string;
     position: Coordinate;
-    status: number;
-    permanenceId: string;
     statusNavigation?: Status;
     permanenceNavigation?: PermanenceType;
     vehiclesStationed?: Vehicle[];
