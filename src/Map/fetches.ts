@@ -1,5 +1,5 @@
 type Base = {
-    id: string,
+    guid: string,
     name: string,
     position: {
         latitude: number,
