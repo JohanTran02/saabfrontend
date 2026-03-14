@@ -1,6 +1,5 @@
 import { useMapStore } from "@/Map/MapStore"
 import { Box, Text } from "@chakra-ui/react";
-import { use } from "react"
 import { toaster } from "./ui/toaster";
 
 export default function CoordinateTracker() {

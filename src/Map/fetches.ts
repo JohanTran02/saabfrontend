@@ -1,13 +1,4 @@
-type Base = {
-    guid: string,
-    name: string,
-    position: {
-        latitude: number,
-        longitude: number
-    },
-    status: number,
-    permanenceId: string,
-}
+import type { Base } from "./types";
 
 export async function fetchAllBases() {
     try {

@@ -1,18 +1,8 @@
 import { create } from "zustand";
-import type { Flights, Resources } from "./types";
+import type { Base, Flights, Resources } from "./types";
 import { decreaseResources, increaseResources } from "./helpers";
 
 
-type Base = {
-    guid: string,
-    name: string,
-    position: {
-        latitude: number,
-        longitude: number
-    },
-    status: number,
-    permanenceId: number,
-}
 
 type BaseState = {
     currentBase: Base | null,
