@@ -27,11 +27,11 @@ useEffect(() => {
     if (coordinates && coordinates.length === 2) {
       setValue("position.latitude", coordinates[0]);
       setValue("position.longitude", coordinates[1]);
-      // keep drawer closed; open only via button
+   
     }
   }, [coordinates, setValue]);
 
-  // 2. Dynamic Arrays for Vehicles and Cargo
+
   const { fields: vehicleFields, append: appendVehicle, remove: removeVehicle } = useFieldArray({
     control,
     name: "vehiclesStationed"
@@ -47,7 +47,7 @@ useEffect(() => {
     addBase(finalizedBase);
     console.log(finalizedBase);
    
-    reset(); // Clear form for next time
+    reset(); 
   };
 
   return (
@@ -60,10 +60,10 @@ useEffect(() => {
       <DrawerTrigger asChild>
         <Button 
           variant="solid" 
-          colorPalette="blue" 
+          colorPalette="black" 
           position="fixed" 
           bottom="20px" 
-          left="20px" 
+          right="20px" 
           zIndex="1000"
         >
           Add New Base
@@ -78,7 +78,7 @@ useEffect(() => {
 
           <DrawerBody maxHeight="calc(100vh - 160px)" overflowY="auto">
             <Stack gap="6">
-              {/* --- SECTION: BASIC INFO --- */}
+              
               <Box>
                 <Text fontWeight="bold" mb="2">General Information</Text>
                 <Field.Root>
@@ -99,9 +99,6 @@ useEffect(() => {
               </Box>
 
               <Separator />
-
-              {/* --- SECTION: VEHICLES (Flight/Transport) --- */}
-          {/* --- SECTION: VEHICLES (Expanded) --- */}
 <Box>
   <Stack direction="row" justify="space-between" align="center" mb="2">
     <Text fontWeight="bold">Stationed Vehicles</Text>
@@ -115,8 +112,8 @@ useEffect(() => {
           longitude: coordinates ? coordinates[1] : 0 
         }, 
         onGoingRepairs: [], 
-        cargoItems: [], // Vehicles have their own cargo
-        status: { id: 1, statusType: "Operational" }, // Default status
+        cargoItems: [], 
+        status: { id: 1, statusType: "Operational" }, 
         scheduleNavigation: null
       })}>
       + Add Vehicle
@@ -127,14 +124,12 @@ useEffect(() => {
     {vehicleFields.map((field, index) => (
       <Box key={field.id} p="4" borderWidth="1px" borderRadius="md" bg="gray.50/50">
         <Stack gap="3">
-          {/* 1. Basic Info & Remove Button */}
           <Stack direction="row" gap="2">
               <Input size="sm" placeholder="GRIPEN-01" {...register(`vehiclesStationed.${index}.identifier`)} />
               <Input size="sm" placeholder="JAS 39" {...register(`vehiclesStationed.${index}.model`)} />
             <Button size="sm" colorPalette="red" variant="ghost" mt="6" onClick={() => removeVehicle(index)}>×</Button>
           </Stack>
 
-          {/* 2. Status Selection */}
              <select 
                {...register(`vehiclesStationed.${index}.status.id`, { valueAsNumber: true })}
                style={{ fontSize: '12px', padding: '4px', border: '1px solid #ddd', borderRadius: '4px' }}
@@ -144,19 +139,6 @@ useEffect(() => {
                <option value={3}>In Transit</option>
              </select>
 
-          {/* 3. Schedule (Destination & Date) */}
-          <Box p="2" bg="white" borderRadius="sm" borderWidth="1px">
-            <Text fontSize="xs" fontWeight="bold" mb="2">Schedule / Destination</Text>
-            <Stack direction="row" gap="2">
-              <Input size="xs" placeholder="Dest Lat" {...register(`vehiclesStationed.${index}.scheduleNavigation.destination.latitude`, { valueAsNumber: true })} />
-              <Input size="xs" placeholder="Dest Lng" {...register(`vehiclesStationed.${index}.scheduleNavigation.destination.longitude`, { valueAsNumber: true })} />
-            </Stack>
-            <Input size="xs" type="datetime-local" mt="2" {...register(`vehiclesStationed.${index}.scheduleNavigation.scheduledDate`)} />
-          </Box>
-
-          {/* Note: Repairs and CargoItems inside a vehicle are usually managed via 
-              a separate 'Sub-FieldArray', but to keep it simple for now, 
-              you can add a 'Note' field or just these main properties. */}
         </Stack>
       </Box>
     ))}
@@ -178,7 +160,7 @@ useEffect(() => {
                   {cargoFields.map((field, index) => (
                     <Stack direction="row" key={field.id} gap="2">
                       <Input size="sm" placeholder="Title" {...register(`cargoItems.${index}.title`)} />
-                      <Input size="sm" type="number" width="70px" {...register(`cargoItems.${index}.quantity`)} />
+                      <Input size="sm" type="number" width="150px" {...register(`cargoItems.${index}.quantity`)} />
                       <Input size="sm"{...register(`cargoItems.${index}.unit`)}/>
                       <Button size="sm" colorPalette="red" variant="ghost" onClick={() => removeCargo(index)}>×</Button>
                     </Stack>

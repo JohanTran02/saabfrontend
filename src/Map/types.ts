@@ -76,6 +76,6 @@ export interface Vehicle {
     position: Coordinate;
     status: Status | null;
     scheduleNavigation: Schedule | null;
-    onGoingRepairs: OnGoingRepair[];
-    cargoItems: CargoItem[];
+    onGoingRepairs: OnGoingRepair[] | null;
+    cargoItems: CargoItem[] | null;
 }
