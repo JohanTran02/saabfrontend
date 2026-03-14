@@ -1,8 +1,21 @@
 import { CircleMarker } from 'react-leaflet';
-import type { Base } from './types';
+import { useBaseStore } from './BaseStore';
+import type { LeafletEventHandlerFnMap } from 'leaflet';
 
-export default function MapMarker({ position, id }: Base) {
+
+
+
+export default function MapMarker({ base }: { base: Base }) {
+    const { currentBase, setCurrentBase, setBaseModalContent } = useBaseStore();
+    const eventHandler: LeafletEventHandlerFnMap = {
+        click() {
+            setCurrentBase(base);
+            setBaseModalContent(true);
+            console.log(currentBase)
+        }
+    }
+
     return (
-        <CircleMarker key={id} center={[position.latitude, position.longitude]} ></CircleMarker>
+        <CircleMarker key={base.guid} center={[base.position.latitude, base.position.longitude]} eventHandlers={eventHandler}></CircleMarker>
     )
 }

@@ -2,16 +2,32 @@ import { create } from "zustand";
 import type { Base, Flights, Resources } from "./types";
 import { decreaseResources, increaseResources } from "./helpers";
 
+
+type Base = {
+    id: string,
+    name: string,
+    position: {
+        latitude: number,
+        longitude: number
+    },
+    status: number,
+    permanenceId: string,
+}
+
 type BaseState = {
+    currentBase: Base | null,
     bases: Base[];
     assignedFlights: Flights['id'][],
     assignedResources: Resources,
     currentResources: Resources
+    baseModalContent: boolean;
 }
 
 type BaseAction = {
+    setBaseModalContent: (open: boolean) => void,
     addBase: (base: Base) => void,
     addBases: (base: Base[]) => void,
+    setCurrentBase: (base: Base) => void,
     removeBase: (baseId: string) => void
     updateBase: (updatedBase: Base) => void
     addFlights: (flights: Flights['id'][]) => void
@@ -23,17 +39,21 @@ type BaseAction = {
 }
 
 export const useBaseStore = create<BaseState & BaseAction>((set) => ({
+    currentBase: null,
     bases: [],
     assignedFlights: [],
     assignedResources: {} as Resources,
     currentResources: {} as Resources,
+    baseModalContent: false,
+    setCurrentBase: (base) => set(() => ({ currentBase: base })),
+    setBaseModalContent: (open) => set(() => ({ baseModalContent: open })),
     addBase: (base) => set((state) => ({ bases: [...state.bases, base] })),
     addBases: (bases) => set((state) => ({ bases: [...state.bases, ...bases] })),
-    removeBase: (baseId) => set((state) => ({ bases: state.bases.filter((base) => baseId !== base.id) })),
+    removeBase: (baseId) => set((state) => ({ bases: state.bases.filter((base) => baseId !== base.guid) })),
     updateBase: (updatedBase: Base) =>
         set((state) => ({
             bases: state.bases.map((base) =>
-                base.id === updatedBase.id ? updatedBase : base
+                base.guid === updatedBase.guid ? updatedBase : base
             ),
         })),
     addFlights: (flights) => set((state) => ({ assignedFlights: [...state.assignedFlights, ...flights] })),

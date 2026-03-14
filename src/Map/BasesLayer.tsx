@@ -27,7 +27,7 @@ export default function BasesLayer() {
     return (
         <FeatureGroup>
             {
-                isSuccess && data && bases.map((base) => <MapMarker key={base.id} {...base} />)
+                isSuccess && data && bases.map((base) => (<MapMarker key={base.guid} base={base} />))
             }
         </FeatureGroup>
     )
