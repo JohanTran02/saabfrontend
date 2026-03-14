@@ -1,6 +1,7 @@
 import { CircleMarker } from 'react-leaflet';
 import { useBaseStore } from './BaseStore';
 import type { LeafletEventHandlerFnMap } from 'leaflet';
+import type { Base } from './types';
 
 
 
