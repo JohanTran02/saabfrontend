@@ -12,10 +12,14 @@ import { Toaster } from "./components/ui/toaster";
 
 function App() {
   return (
-    <Provider>
-      <DrawerUI />
-      <Map />
-    </Provider>
+     <QueryClientProvider client={queryClient}>
+      <Provider>
+        <DrawerUI />
+        <Map />
+        <CoordinateTracker />
+        <Toaster />
+      </Provider>
+    </QueryClientProvider>
   );
 }
 
