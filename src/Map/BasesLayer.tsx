@@ -3,17 +3,7 @@ import MapMarker from "./MapMarker";
 import { fetchAllBases } from "./fetches";
 import { useQuery } from "@tanstack/react-query";
 import { useBaseStore } from "./BaseStore";
-
-type Base = {
-    id: string,
-    name: string,
-    position: {
-        latitude: number,
-        longitude: number
-    },
-    status: number,
-    permanenceId: string,
-}
+import type { Base } from "./types";
 
 export default function BasesLayer() {
     const { addBases, bases } = useBaseStore()

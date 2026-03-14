@@ -20,21 +20,25 @@
 //   name: string;
 // };
 
-//  export type ResourceType = 'fuel' | 'ammunition' | 'weapons' | 'spare_parts';
+export type ResourceType = 'fuel' | 'ammunition' | 'weapons' | 'spare_parts';
 
-// export type Resources = {
-//     [Key in ResourceType]: BaseResourceType;
-// }
+export type BaseResourceType = {
+    amount: number;
+    type: ResourceType;
+    unit: string | null;
+};
 
-// export type Flights = {
-//     id: string,
-//     model: string,
-//     status: 'idle' | 'flying' | 'repairing'
-// }
+export type Resources = {
+    [Key in ResourceType]: BaseResourceType;
+};
 
-// export type BaseType = 'huvudbas' | 'sidobas' | 'reservbas';
+export type Flights = {
+    id: string;
+    model: string;
+    status: 'idle' | 'flying' | 'repairing';
+};
 
-
+export type BaseType = 'huvudbas' | 'sidobas' | 'reservbas';
 
 export interface Coordinate {
     latitude: number;
@@ -49,6 +53,18 @@ export interface Status {
 export interface PermanenceType {
     id: number;
     permanence: string;
+}
+
+export interface Base {
+    id: string;
+    name: string;
+    position: Coordinate;
+    status: number;
+    permanenceId: string;
+    statusNavigation?: Status;
+    permanenceNavigation?: PermanenceType;
+    vehiclesStationed?: Vehicle[];
+    cargoItems?: CargoItem[];
 }
 
 export interface CargoItem {
@@ -85,14 +101,4 @@ export interface Vehicle {
     scheduleNavigation: Schedule | null;
     onGoingRepairs: OnGoingRepair[];
     cargoItems: CargoItem[];
-}
-
-export interface Base {
-    guid: string;          
-    name: string;
-    position: Coordinate;
-    statusNavigation: Status;
-    permanenceNavigation: PermanenceType;
-    vehiclesStationed: Vehicle[];
-    cargoItems: CargoItem[]; 
 }

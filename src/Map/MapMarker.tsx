@@ -1,15 +1,5 @@
 import { CircleMarker } from 'react-leaflet';
-
-type Base = {
-    id: string,
-    name: string,
-    position: {
-        latitude: number,
-        longitude: number
-    },
-    status: number,
-    permanenceId: string,
-}
+import type { Base } from './types';
 
 export default function MapMarker({ position, id }: Base) {
     return (
