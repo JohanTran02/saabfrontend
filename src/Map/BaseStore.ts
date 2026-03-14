@@ -4,7 +4,7 @@ import { decreaseResources, increaseResources } from "./helpers";
 
 
 type Base = {
-    id: string,
+    guid: string,
     name: string,
     position: {
         latitude: number,
@@ -15,6 +15,7 @@ type Base = {
 }
 
 type BaseState = {
+    currentBase: Base,
     bases: Base[];
     assignedFlights: Flights['id'][],
     assignedResources: Resources,
@@ -24,6 +25,7 @@ type BaseState = {
 type BaseAction = {
     addBase: (base: Base) => void,
     addBases: (base: Base[]) => void,
+    setCurrentBase: (base: Base) => void,
     removeBase: (baseId: string) => void
     updateBase: (updatedBase: Base) => void
     addFlights: (flights: Flights['id'][]) => void
@@ -35,10 +37,12 @@ type BaseAction = {
 }
 
 export const useBaseStore = create<BaseState & BaseAction>((set) => ({
+    currentBase: {} as Base,
     bases: [],
     assignedFlights: [],
     assignedResources: {} as Resources,
     currentResources: {} as Resources,
+    setCurrentBase: (base) => set(() => ({ currentBase: base })),
     addBase: (base) => set((state) => ({ bases: [...state.bases, base] })),
     addBases: (bases) => set((state) => ({ bases: [...state.bases, ...bases] })),
     removeBase: (baseId) => set((state) => ({ bases: state.bases.filter((base) => baseId !== base.id) })),
