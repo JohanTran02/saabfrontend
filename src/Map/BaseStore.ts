@@ -1,7 +1,18 @@
 import { create } from "zustand";
-import type { Flights, Resources, Base } from "./types";
-import { dummyBases } from "./constants";
+import type { Flights, Resources } from "./types";
 import { decreaseResources, increaseResources } from "./helpers";
+
+
+type Base = {
+    id: string,
+    name: string,
+    position: {
+        latitude: number,
+        longitude: number
+    },
+    status: number,
+    permanenceId: string,
+}
 
 type BaseState = {
     bases: Base[];
@@ -10,9 +21,9 @@ type BaseState = {
     currentResources: Resources
 }
 
-
 type BaseAction = {
     addBase: (base: Base) => void,
+    addBases: (base: Base[]) => void,
     removeBase: (baseId: string) => void
     updateBase: (updatedBase: Base) => void
     addFlights: (flights: Flights['id'][]) => void
@@ -24,11 +35,12 @@ type BaseAction = {
 }
 
 export const useBaseStore = create<BaseState & BaseAction>((set) => ({
-    bases: dummyBases,
+    bases: [],
     assignedFlights: [],
     assignedResources: {} as Resources,
     currentResources: {} as Resources,
     addBase: (base) => set((state) => ({ bases: [...state.bases, base] })),
+    addBases: (bases) => set((state) => ({ bases: [...state.bases, ...bases] })),
     removeBase: (baseId) => set((state) => ({ bases: state.bases.filter((base) => baseId !== base.id) })),
     updateBase: (updatedBase: Base) =>
         set((state) => ({
