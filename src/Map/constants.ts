@@ -1,8 +1,9 @@
-import type { Base, Resources, ResourceType } from './types';
+import type { Base, ResourceItem, Resources, ResourceType } from './types';
 
 export const dummyBases: Base[] = [
     {
         baseType: 'huvudbas',
+        name: 'Base Alpha',
         coordinates: [60.073774388521656, 16.808927085708422],
         id: 'asdfoasjdfoajsodf',
         assignedFlights: [],
@@ -11,6 +12,7 @@ export const dummyBases: Base[] = [
     },
     {
         baseType: 'reservbas',
+        name: 'Base Bravo',
         coordinates: [60.13882461404783, 14.123980863454367],
         id: 'iosajdgouiasdfiais',
         assignedFlights: [],
@@ -19,6 +21,7 @@ export const dummyBases: Base[] = [
     },
     {
         baseType: 'sidobas',
+        name: 'Base Charlie',
         coordinates: [60.66805933137298, 14.070586699767079],
         id: 'asodfoasdjfoasdfjas',
         assignedFlights: [],
@@ -27,6 +30,7 @@ export const dummyBases: Base[] = [
     },
     {
         baseType: 'reservbas',
+        name: 'Base Delta',
         coordinates: [59.268549179577285, 14.266775673332363],
         id: 'aoisdfiuahsdiufhaiusdfgiuasd',
         assignedFlights: [],
@@ -52,12 +56,9 @@ export const dummyFlights = [
         status: 'repairing' as const,
     } ]
 
-export type ResourceItem = Resources[ResourceType] & {
-  id: string;
-  name: string;
-};
 
-// Now, type your dummy data explicitly
+
+
 export const dummyResources: ResourceItem[] = [
   { id: "1", name: "Jet Fuel", type: "fuel", amount: 100, unit: "liters" },
   { id: "2", name: "Fighter Jet Bullets", type: "ammunition", amount: 50, unit: "kg" },

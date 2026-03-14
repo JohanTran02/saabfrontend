@@ -18,32 +18,33 @@ import {
 } from "@/components/ui/menu";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useState } from "react";
-import type { BaseType, Flights } from "@/Map/types";
+import type { Base } from "@/Map/types";
 import {
   dummyFlights,
   dummyResources,
-  type ResourceItem,
 } from "@/Map/constants";
+import { useBaseStore } from "@/Map/BaseStore";
 
-interface IFormInput {
-  name: string;
-  baseType: BaseType;
-  coordinates: string;
-  flights: Flights[];
-  resources: ResourceItem[];
-}
+
 
 export default function DrawerUI() {
   const [open, setOpen] = useState(false);
-  const { register, handleSubmit, setValue, watch } = useForm<IFormInput>({
-    defaultValues: { flights: [], resources: [] },
+  const { register, handleSubmit, setValue, watch } = useForm<Base>({
+    defaultValues: { id: "", name: "", baseType: "huvudbas", coordinates: [0, 0], assignedFlights: [], assignedResources: [], currentResources: [] },
   });
 
-  const selectedFlights = watch("flights");
-  const selectedResources = watch("resources");
+  const baseStore = useBaseStore();
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+
+
+  const selectedFlights = watch("assignedFlights");
+  const selectedResources = watch("assignedResources");
+
+  const onSubmit: SubmitHandler<Base> = (data) => {
     console.log("Station Instance Data:", data);
+    console.log(typeof data.coordinates)
+
+    baseStore.addBase(data);
     setOpen(false);
   };
 
@@ -90,8 +91,26 @@ export default function DrawerUI() {
               <Field.Root>
                 <Field.Label>Coordinates</Field.Label>
                 <Input
-                  {...register("coordinates")}
-                  placeholder="enter coordinates as lat,long"
+                  {...register("coordinates", {
+                    setValueAs: (value: any) => {
+                      
+                      if (Array.isArray(value)) return value;
+
+                     
+                      if (typeof value !== "string" || !value.trim())
+                        return [0, 0];
+
+                     
+                      const parts = value
+                        .split(",")
+                        .map((v) => parseFloat(v.trim()));
+
+                      return parts.length === 2 && !parts.some(isNaN)
+                        ? parts
+                        : [0, 0];
+                    },
+                  })}
+                  placeholder="58.41, 15.62"
                 />
               </Field.Root>
 
@@ -115,7 +134,9 @@ export default function DrawerUI() {
                         key={f.id}
                         value={f.model}
                         onClick={() =>
-                          setValue("flights", [...selectedFlights, f])
+                          setValue("assignedFlights", [
+                            ...selectedFlights, f
+                          ])
                         }
                       >
                         {f.model}
@@ -142,7 +163,10 @@ export default function DrawerUI() {
                         key={r.id}
                         value={r.name}
                         onClick={() =>
-                          setValue("resources", [...selectedResources, r])
+                          setValue("assignedResources", [
+                            ...selectedResources,
+                            r
+                          ])
                         }
                       >
                         {r.name}
